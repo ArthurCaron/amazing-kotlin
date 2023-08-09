@@ -2,8 +2,8 @@ package io.github.superbob.amazing
 
 import java.util.*
 
-class Amazing(randomSeed: Long = 0) {
-    private val random = Random(randomSeed)
+class Amazing(randomSeed: Long? = null) {
+    private val random = randomSeed?.let { Random(it) } ?: Random()
 
     private fun rnd(count: Int): Int {
         return (count * random.nextFloat()).toInt() + 1
