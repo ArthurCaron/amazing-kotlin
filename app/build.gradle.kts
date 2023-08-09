@@ -26,5 +26,5 @@ java {
 }
 
 application {
-    mainClass.set("io.github.superbob.amazing.Amazing")
+    mainClass.set("io.github.superbob.amazing.AmazingKt")
 }
