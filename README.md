@@ -10,7 +10,7 @@ This source code provides a refactoring challenge in kotlin.
 
 ## Credits
 
-* The original program is by Jack Hauber, and the source is "Basic Computer Games." Used with permission of [David Ahl](www.SwapMeetDave.com)
+* The original program is by Jack Hauber, and the source is "Basic Computer Games." Used with permission of [David Ahl](http://www.SwapMeetDave.com)
 * This exercise was inspired by Alan Hensel's use of [Amazing as a refactoring challenge](http://www.mindspring.com/~alanh/refactoring/challenge.html)
 * The transliteration to Java is based on one created by [Bill Wake](http://xp123.com).
 * The initial code repository, including this README file comes from [xpsurgery](https://github.com/xpsurgery/amazing).
