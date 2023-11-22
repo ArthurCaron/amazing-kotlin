@@ -94,10 +94,19 @@ class Amazing(randomSeed: Long? = null) {
                 }
 
                 430 -> {
-                    if (r == horizontal) {
-                        GOTO(530)
-                    } else if (wArray[r + 1][s] != 0) {
-                        GOTO(530)
+                    if (r == horizontal || wArray[r + 1][s] != 0) {
+                        if (s != vertical) {
+                            if (wArray[r][s + 1] != 0) {
+                                GOTO(940)
+                            } else {
+                                GOTO(random570())
+                            }
+                        } else if (z) {
+                            GOTO(940)
+                        } else {
+                            q = true
+                            GOTO(random570())
+                        }
                     } else if (s != vertical) {
                         if (wArray[r][s + 1] != 0) {
                             GOTO(random510())
@@ -112,27 +121,22 @@ class Amazing(randomSeed: Long? = null) {
                     }
                 }
 
-                530 -> {
-                    if (s != vertical) {
-                        if (wArray[r][s + 1] != 0) {
-                            GOTO(940)
-                        } else {
-                            GOTO(random570())
-                        }
-                    } else if (z) {
-                        GOTO(940)
-                    } else {
-                        q = true
-                        GOTO(random570())
-                    }
-                }
-
                 600 -> {
                     if (s - 1 == 0 || wArray[r][s - 1] != 0) {
-                        if (r == horizontal) {
-                            GOTO(880)
-                        } else if (wArray[r + 1][s] != 0) {
-                            GOTO(880)
+                        if (r == horizontal || wArray[r + 1][s] != 0) {
+                            if (s != vertical) {
+                                if (wArray[r][s + 1] != 0) {
+                                    GOTO(210)
+                                } else {
+                                    GOTO(1090)
+                                }
+                            } else if (z) {
+                                GOTO(210)
+                            } else {
+                                q = true
+                                GOTO(1090)
+
+                            }
                         } else if (s != vertical) {
                             if (wArray[r][s + 1] != 0) {
                                 GOTO(1020)
@@ -148,19 +152,15 @@ class Amazing(randomSeed: Long? = null) {
                     } else if (r == horizontal || wArray[r + 1][s] != 0) {
                         GOTO(720)
                     } else if (s != vertical) {
-                        GOTO(670)
+                        if (wArray[r][s + 1] != 0) {
+                            GOTO(random700())
+                        } else {
+                            GOTO(random680())
+                        }
                     } else if (z) {
                         GOTO(random700())
                     } else {
                         q = true
-                        GOTO(random680())
-                    }
-                }
-
-                670 -> {
-                    if (wArray[r][s + 1] != 0) {
-                        GOTO(random700())
-                    } else {
                         GOTO(random680())
                     }
                 }
@@ -177,22 +177,6 @@ class Amazing(randomSeed: Long? = null) {
                     } else {
                         q = true
                         GOTO(random760())
-                    }
-                }
-
-                880 -> {
-                    if (s != vertical) {
-                        if (wArray[r][s + 1] != 0) {
-                            GOTO(210)
-                        } else {
-                            GOTO(1090)
-                        }
-                    } else if (z) {
-                        GOTO(210)
-                    } else {
-                        q = true
-                        GOTO(1090)
-
                     }
                 }
 
@@ -231,20 +215,18 @@ class Amazing(randomSeed: Long? = null) {
                     c++
                     if (vArray[r][s] == 0) {
                         vArray[r][s] = 2
-                        GOTO(1060)
                     } else {
                         vArray[r][s] = 3
-                        GOTO(1060)
                     }
-                }
-
-                1060 -> {
                     r++
                     if (c == horizontal * vertical + 1) {
                         GOTO(-1)
                     } else {
                         GOTO(600)
                     }
+                }
+
+                1060 -> {
                 }
 
                 1090 -> if (q) {
@@ -265,14 +247,9 @@ class Amazing(randomSeed: Long? = null) {
                     c++
                     if (vArray[r][s] == 0) {
                         vArray[r][s] = 1
-                        GOTO(1130)
                     } else {
                         vArray[r][s] = 3
-                        GOTO(1130)
                     }
-                }
-
-                1130 -> {
                     s++
                     if (c == vertical * horizontal + 1) {
                         GOTO(-1)
