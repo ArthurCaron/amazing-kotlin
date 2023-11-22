@@ -74,47 +74,22 @@ class Amazing(randomSeed: Long? = null) {
                     } else if (r == horizontal || wArray[r + 1][s] != 0) {
                         GOTO(350)
                     } else {
-                        x = rnd(3)
-                        when (x) {
-                            1 -> GOTO(940)
-                            2 -> GOTO(980)
-                            3 -> GOTO(1020)
-                            4 -> GOTO(350)
-                        }
+                        GOTO(randomIn270())
                     }
                 }
 
                 350 -> {
                     if (s != vertical) {
                         if (wArray[r][s + 1] != 0) {
-                            GOTO(410)
+                            GOTO(random410())
                         } else {
-                            GOTO(390)
+                            GOTO(random390())
                         }
                     } else if (z) {
-                        GOTO(410)
+                        GOTO(random410())
                     } else {
                         q = true
-                        GOTO(390)
-                    }
-                }
-
-                390 -> {
-                    x = rnd(3)
-                    when (x) {
-                        1 -> GOTO(940)
-                        2 -> GOTO(980)
-                        3 -> GOTO(1090)
-                        4 -> GOTO(410)
-                    }
-                }
-
-                410 -> {
-                    x = rnd(2)
-                    when (x) {
-                        1 -> GOTO(940)
-                        2 -> GOTO(980)
-                        3 -> GOTO(430)
+                        GOTO(random390())
                     }
                 }
 
@@ -125,34 +100,15 @@ class Amazing(randomSeed: Long? = null) {
                         GOTO(530)
                     } else if (s != vertical) {
                         if (wArray[r][s + 1] != 0) {
-                            GOTO(510)
+                            GOTO(random510())
                         } else {
-                            GOTO(490)
+                            GOTO(random490())
                         }
                     } else if (z) {
-                        GOTO(510)
+                        GOTO(random510())
                     } else {
                         q = true
-                        GOTO(490)
-                    }
-                }
-
-                490 -> {
-                    x = rnd(3)
-                    when (x) {
-                        1 -> GOTO(940)
-                        2 -> GOTO(1020)
-                        3 -> GOTO(1090)
-                        4 -> GOTO(510)
-                    }
-                }
-
-                510 -> {
-                    x = rnd(2)
-                    when (x) {
-                        1 -> GOTO(940)
-                        2 -> GOTO(1020)
-                        3 -> GOTO(530)
+                        GOTO(random490())
                     }
                 }
 
@@ -161,68 +117,51 @@ class Amazing(randomSeed: Long? = null) {
                         if (wArray[r][s + 1] != 0) {
                             GOTO(940)
                         } else {
-                            GOTO(570)
+                            GOTO(random570())
                         }
                     } else if (z) {
                         GOTO(940)
                     } else {
                         q = true
-                        GOTO(570)
-                    }
-                }
-
-                570 -> {
-                    x = rnd(2)
-                    when (x) {
-                        1 -> GOTO(940)
-                        2 -> GOTO(1090)
-                        3 -> GOTO(940)
+                        GOTO(random570())
                     }
                 }
 
                 600 -> {
-                    if (s - 1 == 0) {
-                        GOTO(790)
-                    } else if (wArray[r][s - 1] != 0) {
-                        GOTO(790)
-                    } else if (r == horizontal) {
-                        GOTO(720)
-                    } else if (wArray[r + 1][s] != 0) {
+                    if (s - 1 == 0 || wArray[r][s - 1] != 0) {
+                        if (r == horizontal) {
+                            GOTO(880)
+                        } else if (wArray[r + 1][s] != 0) {
+                            GOTO(880)
+                        } else if (s != vertical) {
+                            if (wArray[r][s + 1] != 0) {
+                                GOTO(1020)
+                            } else {
+                                GOTO(randomIn600())
+                            }
+                        } else if (z) {
+                            GOTO(1020)
+                        } else {
+                            q = true
+                            GOTO(990)
+                        }
+                    } else if (r == horizontal || wArray[r + 1][s] != 0) {
                         GOTO(720)
                     } else if (s != vertical) {
                         GOTO(670)
                     } else if (z) {
-                        GOTO(700)
+                        GOTO(random700())
                     } else {
                         q = true
-                        GOTO(680)
+                        GOTO(random680())
                     }
                 }
 
                 670 -> {
                     if (wArray[r][s + 1] != 0) {
-                        GOTO(700)
+                        GOTO(random700())
                     } else {
-                        GOTO(680)
-                    }
-                }
-
-                680 -> {
-                    x = rnd(3)
-                    when (x) {
-                        1 -> GOTO(980)
-                        2 -> GOTO(1020)
-                        3 -> GOTO(1090)
-                        4 -> GOTO(700)
-                    }
-                }
-
-                700 -> {
-                    x = rnd(2)
-                    when (x) {
-                        1 -> GOTO(980)
-                        2 -> GOTO(1020)
-                        3 -> GOTO(720)
+                        GOTO(random680())
                     }
                 }
 
@@ -231,46 +170,13 @@ class Amazing(randomSeed: Long? = null) {
                         if (wArray[r][s + 1] != 0) {
                             GOTO(980)
                         } else {
-                            GOTO(760)
+                            GOTO(random760())
                         }
                     } else if (z) {
                         GOTO(980)
                     } else {
                         q = true
-                        GOTO(760)
-                    }
-                }
-
-                760 -> {
-                    x = rnd(2)
-                    when (x) {
-                        1 -> GOTO(980)
-                        2 -> GOTO(1090)
-                        3 -> GOTO(980)
-                    }
-                }
-
-                790 -> {
-                    if (r == horizontal) {
-                        GOTO(880)
-                    } else if (wArray[r + 1][s] != 0) {
-                        GOTO(880)
-                    } else if (s != vertical) {
-                        if (wArray[r][s + 1] != 0) {
-                            GOTO(1020)
-                        } else {
-                            x = rnd(2)
-                            when (x) {
-                                1 -> GOTO(1020)
-                                2 -> GOTO(1090)
-                                3 -> GOTO(1020)
-                            }
-                        }
-                    } else if (z) {
-                        GOTO(1020)
-                    } else {
-                        q = true
-                        GOTO(990)
+                        GOTO(random760())
                     }
                 }
 
@@ -380,6 +286,36 @@ class Amazing(randomSeed: Long? = null) {
         buildMaze(vertical, result, horizontal, vArray)
 
         return result.toString()
+    }
+
+    private fun randomIn270() = random3(940, 980, 1020, 350)
+    private fun random390() = random3(940, 980, 1090, 410)
+    private fun random410() = random2(940, 980, 430)
+    private fun random490() = random3(940, 1020, 1090, 510)
+    private fun random510() = random2(940, 1020, 530)
+    private fun random570() = random2(940, 1090, 940)
+    private fun randomIn600() = random2(1020, 1090, 1020)
+    private fun random680() = random3(980, 1020, 1090, 700)
+    private fun random700() = random2(980, 1020, 720)
+    private fun random760() = random2(980, 1090, 980)
+
+    private fun random2(ifOne: Int, ifTwo: Int, ifThree: Int): Int {
+        val x = rnd(2)
+        return when (x) {
+            1 -> ifOne
+            2 -> ifTwo
+            else -> ifThree
+        }
+    }
+
+    private fun random3(ifOne: Int, ifTwo: Int, ifThree: Int, ifFour: Int): Int {
+        val x = rnd(3)
+        return when (x) {
+            1 -> ifOne
+            2 -> ifTwo
+            3 -> ifThree
+            else -> ifFour
+        }
     }
 
     private fun buildMaze(vertical: Int, result: StringBuilder, horizontal: Int, vArray: Array<IntArray>) {
