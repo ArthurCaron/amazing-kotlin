@@ -43,7 +43,8 @@ class Amazing(randomSeed: Long? = null) {
         var r = x
         var s = 1
 
-        while (target != -1) {
+        var finished = false
+        while (!finished) {
             when (target) {
                 210 -> {
                     if (r != horizontal) {
@@ -186,7 +187,7 @@ class Amazing(randomSeed: Long? = null) {
                     vArray[r - 1][s] = 2
                     r--
                     if (c == horizontal * vertical + 1) {
-                        GOTO(-1)
+                        finished = true
                     } else {
                         q = false
                         GOTO(270)
@@ -203,7 +204,7 @@ class Amazing(randomSeed: Long? = null) {
                     vArray[r][s - 1] = 1
                     s--
                     if (c == horizontal * vertical + 1) {
-                        GOTO(-1)
+                        finished = true
                     } else {
                         q = false
                         GOTO(270)
@@ -220,7 +221,7 @@ class Amazing(randomSeed: Long? = null) {
                     }
                     r++
                     if (c == horizontal * vertical + 1) {
-                        GOTO(-1)
+                        finished = true
                     } else {
                         GOTO(600)
                     }
@@ -252,7 +253,7 @@ class Amazing(randomSeed: Long? = null) {
                     }
                     s++
                     if (c == vertical * horizontal + 1) {
-                        GOTO(-1)
+                        finished = true
                     } else {
                         GOTO(270)
                     }
