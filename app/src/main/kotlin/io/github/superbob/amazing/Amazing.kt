@@ -22,8 +22,8 @@ class Amazing(randomSeed: Long? = null) {
         val wArray = Array(horizontal + 1) { IntArray(vertical + 1) }
         val vArray = Array(horizontal + 1) { IntArray(vertical + 1) }
 
-        var q = 0
-        var z = 0
+        var q = false
+        var z = false
         var x = rnd(horizontal)
 
         for (i in 1..horizontal) {
@@ -67,13 +67,9 @@ class Amazing(randomSeed: Long? = null) {
                 }
 
                 270 -> {
-                    if (r - 1 == 0) {
+                    if (r - 1 == 0 || wArray[r - 1][s] != 0) {
                         GOTO(600)
-                    } else if (wArray[r - 1][s] != 0) {
-                        GOTO(600)
-                    } else if (s - 1 == 0) {
-                        GOTO(430)
-                    } else if (wArray[r][s - 1] != 0) {
+                    } else if (s - 1 == 0 || wArray[r][s - 1] != 0) {
                         GOTO(430)
                     } else if (r == horizontal || wArray[r + 1][s] != 0) {
                         GOTO(350)
@@ -83,7 +79,7 @@ class Amazing(randomSeed: Long? = null) {
                             1 -> GOTO(940)
                             2 -> GOTO(980)
                             3 -> GOTO(1020)
-                            else -> GOTO(350)
+                            4 -> GOTO(350)
                         }
                     }
                 }
@@ -95,10 +91,10 @@ class Amazing(randomSeed: Long? = null) {
                         } else {
                             GOTO(390)
                         }
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(410)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(390)
                     }
                 }
@@ -109,7 +105,7 @@ class Amazing(randomSeed: Long? = null) {
                         1 -> GOTO(940)
                         2 -> GOTO(980)
                         3 -> GOTO(1090)
-                        else -> GOTO(410)
+                        4 -> GOTO(410)
                     }
                 }
 
@@ -118,7 +114,7 @@ class Amazing(randomSeed: Long? = null) {
                     when (x) {
                         1 -> GOTO(940)
                         2 -> GOTO(980)
-                        else -> GOTO(430)
+                        3 -> GOTO(430)
                     }
                 }
 
@@ -133,10 +129,10 @@ class Amazing(randomSeed: Long? = null) {
                         } else {
                             GOTO(490)
                         }
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(510)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(490)
                     }
                 }
@@ -147,7 +143,7 @@ class Amazing(randomSeed: Long? = null) {
                         1 -> GOTO(940)
                         2 -> GOTO(1020)
                         3 -> GOTO(1090)
-                        else -> GOTO(510)
+                        4 -> GOTO(510)
                     }
                 }
 
@@ -156,7 +152,7 @@ class Amazing(randomSeed: Long? = null) {
                     when (x) {
                         1 -> GOTO(940)
                         2 -> GOTO(1020)
-                        else -> GOTO(530)
+                        3 -> GOTO(530)
                     }
                 }
 
@@ -167,10 +163,10 @@ class Amazing(randomSeed: Long? = null) {
                         } else {
                             GOTO(570)
                         }
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(940)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(570)
                     }
                 }
@@ -180,7 +176,7 @@ class Amazing(randomSeed: Long? = null) {
                     when (x) {
                         1 -> GOTO(940)
                         2 -> GOTO(1090)
-                        else -> GOTO(940)
+                        3 -> GOTO(940)
                     }
                 }
 
@@ -195,10 +191,10 @@ class Amazing(randomSeed: Long? = null) {
                         GOTO(720)
                     } else if (s != vertical) {
                         GOTO(670)
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(700)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(680)
                     }
                 }
@@ -217,7 +213,7 @@ class Amazing(randomSeed: Long? = null) {
                         1 -> GOTO(980)
                         2 -> GOTO(1020)
                         3 -> GOTO(1090)
-                        else -> GOTO(700)
+                        4 -> GOTO(700)
                     }
                 }
 
@@ -226,7 +222,7 @@ class Amazing(randomSeed: Long? = null) {
                     when (x) {
                         1 -> GOTO(980)
                         2 -> GOTO(1020)
-                        else -> GOTO(720)
+                        3 -> GOTO(720)
                     }
                 }
 
@@ -237,10 +233,10 @@ class Amazing(randomSeed: Long? = null) {
                         } else {
                             GOTO(760)
                         }
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(980)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(760)
                     }
                 }
@@ -250,7 +246,7 @@ class Amazing(randomSeed: Long? = null) {
                     when (x) {
                         1 -> GOTO(980)
                         2 -> GOTO(1090)
-                        else -> GOTO(980)
+                        3 -> GOTO(980)
                     }
                 }
 
@@ -267,13 +263,13 @@ class Amazing(randomSeed: Long? = null) {
                             when (x) {
                                 1 -> GOTO(1020)
                                 2 -> GOTO(1090)
-                                else -> GOTO(1020)
+                                3 -> GOTO(1020)
                             }
                         }
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(1020)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(990)
                     }
                 }
@@ -285,10 +281,10 @@ class Amazing(randomSeed: Long? = null) {
                         } else {
                             GOTO(1090)
                         }
-                    } else if (z == 1) {
+                    } else if (z) {
                         GOTO(210)
                     } else {
-                        q = 1
+                        q = true
                         GOTO(1090)
 
                     }
@@ -302,7 +298,7 @@ class Amazing(randomSeed: Long? = null) {
                     if (c == horizontal * vertical + 1) {
                         GOTO(-1)
                     } else {
-                        q = 0
+                        q = false
                         GOTO(270)
                     }
                 }
@@ -319,7 +315,7 @@ class Amazing(randomSeed: Long? = null) {
                     if (c == horizontal * vertical + 1) {
                         GOTO(-1)
                     } else {
-                        q = 0
+                        q = false
                         GOTO(270)
                     }
                 }
@@ -345,17 +341,17 @@ class Amazing(randomSeed: Long? = null) {
                     }
                 }
 
-                1090 -> if (q == 1) {
-                    z = 1
+                1090 -> if (q) {
+                    z = true
                     if (vArray[r][s] == 0) {
                         vArray[r][s] = 1
-                        q = 0
+                        q = false
                         r = 1
                         s = 1
                         GOTO(260)
                     } else {
                         vArray[r][s] = 3
-                        q = 0
+                        q = false
                         GOTO(210)
                     }
                 } else {
