@@ -26,63 +26,52 @@ class Amazing(randomSeed: Long? = null) {
 
     fun moveToNextSquare(context: MazeBuildContext) {
         context.doThis {
-            if (notReachedTheRight()) {
-                moveToTheRightSquare()
-            } else if (notReachedTheBot()) {
-                moveToTheStartOfTheNextLineBotSquare()
-            } else {
-                moveToTheFirstSquareOfTheMaze()
-            }
-            if (currentSquareInWArrayIsSet()) {
-                m270(context)
-            }
+            if (isNotLastCol()) moveToTheRightSquare()
+            else if (isNotLastRow()) moveToTheStartOfTheNextLineBotSquare()
+            else moveToTheFirstSquareOfTheMaze()
+
+            if (currentSquareInWArrayIsSet()) m270(context)
             moveToNextSquare(context)
         }
     }
 
     fun m270(context: MazeBuildContext) {
         context.doThis {
-            if (colIsReset() || leftSquareInWArrayIsSet()) {
-                m600(context)
-            } else if (rowIsReset() || topSquareInWArrayIsSet()) {
-                m430(context)
-            } else if (reachedTheRight() || rightSquareInWArrayIsSet()) {
-                m350(context)
-            } else {
-                random3(::openLeftSquareToTheCurrentOneByTheRightSize, ::m980, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m350)(context)
-            }
+            if (isFirstColORleftSquareInWArrayIsSet()) m600(context)
+            else if (isFirstRowORtopSquareInWArrayIsSet()) m430(context)
+            else if (isLastColORrightSquareInWArrayIsSet()) m350(context)
+            else random3(::openLeftSquareToTheCurrentOneByTheRightSize, ::m980, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m350)(context)
         }
     }
 
     fun m350(context: MazeBuildContext) {
         context.doThis {
             activateQIfNotZAndReachedTheBot()
-            if (zAndSIsVertical() || (notReachedTheBot() && botSquareInWArrayIsSet())) {
+            if (zAndSIsVertical() || isNotLastRowANDbotSquareInWArrayIsSet()) {
                 random2(::openLeftSquareToTheCurrentOneByTheRightSize, ::m980, ::m430)(context)
             } else {
-                random3(::openLeftSquareToTheCurrentOneByTheRightSize, ::m980, ::m1090, ::m410)(context)
+                random3(
+                        ::openLeftSquareToTheCurrentOneByTheRightSize,
+                        ::m980,
+                        ::m1090,
+                        random2(::openLeftSquareToTheCurrentOneByTheRightSize, ::m980, ::m430)
+                )(context)
             }
-        }
-    }
-
-    fun m410(context: MazeBuildContext) {
-        context.doThis {
-            random2(::openLeftSquareToTheCurrentOneByTheRightSize, ::m980, ::m430)(context)
         }
     }
 
     fun m430(context: MazeBuildContext) {
         context.doThis {
             activateQIfNotZAndReachedTheBot()
-            if (zAndSIsVertical() && (reachedTheRight() || rightSquareInWArrayIsSet())) {
+            if (zAndSIsVertical() && isLastColORrightSquareInWArrayIsSet()) {
                 openLeftSquareToTheCurrentOneByTheRightSize(context)
-            } else if (zAndSIsVertical() && !(reachedTheRight() || rightSquareInWArrayIsSet())) {
+            } else if (zAndSIsVertical() && !isLastColORrightSquareInWArrayIsSet()) {
                 random2(::openLeftSquareToTheCurrentOneByTheRightSize, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m530)(context)
-            } else if ((reachedTheRight() || rightSquareInWArrayIsSet()) && (notReachedTheBot() && botSquareInWArrayIsSet())) {
+            } else if (isLastColORrightSquareInWArrayIsSet() && (isNotLastRowANDbotSquareInWArrayIsSet())) {
                 openLeftSquareToTheCurrentOneByTheRightSize(context)
-            } else if ((reachedTheRight() || rightSquareInWArrayIsSet()) && !(notReachedTheBot() && botSquareInWArrayIsSet())) {
+            } else if ((isLastColORrightSquareInWArrayIsSet()) && !(isNotLastRowANDbotSquareInWArrayIsSet())) {
                 random2(::openLeftSquareToTheCurrentOneByTheRightSize, ::m1090, ::openLeftSquareToTheCurrentOneByTheRightSize)(context)
-            } else if (notReachedTheBot() && botSquareInWArrayIsSet()) {
+            } else if (isNotLastRowANDbotSquareInWArrayIsSet()) {
                 random2(::openLeftSquareToTheCurrentOneByTheRightSize, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m530)(context)
             } else {
                 random3(::openLeftSquareToTheCurrentOneByTheRightSize, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m1090, ::m510)(context)
@@ -99,7 +88,7 @@ class Amazing(randomSeed: Long? = null) {
     fun m530(context: MazeBuildContext) {
         context.doThis {
             activateQIfNotZAndReachedTheBot()
-            if (notReachedTheBot()) {
+            if (isNotLastRow()) {
                 if (botSquareInWArrayIsSet()) {
                     openLeftSquareToTheCurrentOneByTheRightSize(context)
                 } else {
@@ -116,26 +105,26 @@ class Amazing(randomSeed: Long? = null) {
     fun m600(context: MazeBuildContext) {
         context.doThis {
             activateQIfNotZAndReachedTheBot()
-            if ((zAndSIsVertical() && !(reachedTheRight() || rightSquareInWArrayIsSet())) && (topSquareInWArrayIsUnset())) {
+            if ((zAndSIsVertical() && !(isLastColORrightSquareInWArrayIsSet())) && (topSquareInWArrayIsUnset())) {
                 random2(::m980, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m720)(context)
-            } else if ((zAndSIsVertical() && !(reachedTheRight() || rightSquareInWArrayIsSet())) && !(topSquareInWArrayIsUnset())) {
+            } else if ((zAndSIsVertical() && !(isLastColORrightSquareInWArrayIsSet())) && !(topSquareInWArrayIsUnset())) {
                 openMazeToTheRightIfBlockedOrFullyOpen(context)
-            } else if (zAndSIsVertical() && (reachedTheRight() || rightSquareInWArrayIsSet()) && topSquareInWArrayIsSet()) {
+            } else if (zAndSIsVertical() && (isLastColORrightSquareInWArrayIsSet()) && topSquareInWArrayIsSet()) {
                 moveToNextSquare(context)
-            } else if (rowIsReset() || topSquareInWArrayIsSet()) {
-                if (reachedTheRight() || rightSquareInWArrayIsSet()) {
-                    if (notReachedTheBot() && botSquareInWArrayIsSet()) {
+            } else if (isFirstRowORtopSquareInWArrayIsSet()) {
+                if (isLastColORrightSquareInWArrayIsSet()) {
+                    if (isNotLastRowANDbotSquareInWArrayIsSet()) {
                         moveToNextSquare(context)
                     } else {
                         m1090(context)
                     }
-                } else if (notReachedTheBot()) {
+                } else if (isNotLastRow()) {
                     if (botSquareInWArrayIsSet()) {
                         openMazeToTheRightIfBlockedOrFullyOpen(context)
                     } else {
                         random2(::openMazeToTheRightIfBlockedOrFullyOpen, ::m1090, ::openMazeToTheRightIfBlockedOrFullyOpen)(context)
                     }
-                } else if (notReachedTheRight() && rightSquareInWArrayIsUnset() && reachedTheBot()) {
+                } else if (isNotLastCol() && rightSquareInWArrayIsUnset() && isLastRow()) {
                     increaseC()
                     setMazeTopSquare(Maze.SquareType.OPEN_BOT)
                     moveToTheTopSquare()
@@ -146,9 +135,9 @@ class Amazing(randomSeed: Long? = null) {
                         m270(context)
                     }
                 }
-            } else if (reachedTheRight() || rightSquareInWArrayIsSet()) {
+            } else if (isLastColORrightSquareInWArrayIsSet()) {
                 m720(context)
-            } else if (notReachedTheBot() && botSquareInWArrayIsSet()) {
+            } else if (isNotLastRowANDbotSquareInWArrayIsSet()) {
                 random2(::m980, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m720)(context)
             } else {
                 random3(::m980, ::openMazeToTheRightIfBlockedOrFullyOpen, ::m1090, ::m700)(context)
@@ -167,7 +156,7 @@ class Amazing(randomSeed: Long? = null) {
             activateQIfNotZAndReachedTheBot()
             if (zAndSIsVertical()) {
                 m980(context)
-            } else if (notReachedTheBot() && botSquareInWArrayIsSet()) {
+            } else if (isNotLastRowANDbotSquareInWArrayIsSet()) {
                 m980(context)
             } else {
                 random2(::m980, ::m1090, ::m980)(context)
@@ -315,7 +304,7 @@ class Amazing(randomSeed: Long? = null) {
         private var col: Int = 0
         private var row: Int = 1
         private var c: Int = 2
-        var finished: Boolean = false
+        private var finished: Boolean = false
 
         private fun rnd(count: Int): Int {
             return (count * random.nextFloat()).toInt() + 1
@@ -334,13 +323,12 @@ class Amazing(randomSeed: Long? = null) {
         fun setQToFalse() { q = false }
         fun setZToTrue() { z = true }
         fun setIsFinished() { finished = true }
-
-        fun colIsReset() = col == 1
-        fun rowIsReset() = row == 1
-        fun reachedTheRight() = col == width
-        fun notReachedTheRight() = !reachedTheRight()
-        fun reachedTheBot() = row == height
-        fun notReachedTheBot() = !reachedTheBot()
+        fun isFirstCol() = col == 1
+        fun isFirstRow() = row == 1
+        fun isLastCol() = col == width
+        fun isNotLastCol() = !isLastCol()
+        fun isLastRow() = row == height
+        fun isNotLastRow() = !isLastRow()
 
         private fun resetCol() {
             col = 1
@@ -423,6 +411,11 @@ class Amazing(randomSeed: Long? = null) {
         fun botSquareInWArrayIsSet() = wArray[col][botSquare] != 0
         fun topSquareInWArrayIsSet() = wArray[col][topSquare] != 0
 
+        fun isFirstColORleftSquareInWArrayIsSet() = isFirstCol() || leftSquareInWArrayIsSet()
+        fun isFirstRowORtopSquareInWArrayIsSet() = isFirstRow() || topSquareInWArrayIsSet()
+        fun isLastColORrightSquareInWArrayIsSet() = isLastCol() || rightSquareInWArrayIsSet()
+        fun isNotLastRowANDbotSquareInWArrayIsSet() = isNotLastRow() && botSquareInWArrayIsSet()
+
         fun currentMazeSquareIsBlocked() = maze.array[col][row] == Maze.SquareType.BLOCKED
 
         fun doThis(block: MazeBuildContext.() -> Unit) {
@@ -434,9 +427,9 @@ class Amazing(randomSeed: Long? = null) {
         fun isFinished() = c == width * height + 1
 
 
-        fun zAndSIsVertical() = z && reachedTheBot()
+        fun zAndSIsVertical() = z && isLastRow()
         fun activateQIfNotZAndReachedTheBot() {
-            if (!z && reachedTheBot()) {
+            if (!z && isLastRow()) {
                 q = true
             }
         }
