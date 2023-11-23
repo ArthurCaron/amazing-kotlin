@@ -14,223 +14,9 @@ class Amazing(randomSeed: Long? = null) {
         result.appendLine("Amazing - Copyright by Creative Computing, Morristown, NJ")
         if (width == 1 || height == 1) return result.toString()
         val context = MazeBuildContext(random, width, height)
-        start(context)
+        context.start()
         result.append(context.buildMazeAsString())
         return result.toString()
-    }
-
-    fun start(context: MazeBuildContext) {
-        context.doThis {
-            if (cantMoveToLeft) cantGoLeft(context)
-            else if (cantMoveToTop) m430(context)
-            else if (cantMoveToRight) m350(context)
-            else {
-                when (rnd(3)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    3 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    else -> m350(context)
-                }
-            }
-        }
-    }
-
-    fun m350(context: MazeBuildContext) {
-        context.doThis {
-            val cantOpenBot = isLastRow_AND_mazeHasAnEnd || isNotLastRow_AND_botSquareInWArrayIsSet
-            if (cantOpenBot) {
-                when (rnd(2)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    else -> m430(context)
-                }
-            } else {
-                when (rnd(3)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    3 -> m1090AndStart(context)
-                    else -> {
-                        when (rnd(2)) {
-                            1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                            2 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                            else -> m430(context)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun m430(context: MazeBuildContext) {
-        context.doThis {
-            if (mazeHasAnEnd && isLastRow && cantMoveToRight) {
-                moveToTheLeftSquareByOpeningTheWallAndStart(context)
-            } else if (mazeHasAnEnd && isLastRow && isNotLastCol && rightSquareInWArrayIsUnset) {
-                when (rnd(2)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    else -> m530(context)
-                }
-            } else if (cantMoveToRight && isNotLastRow_AND_botSquareInWArrayIsSet) {
-                moveToTheLeftSquareByOpeningTheWallAndStart(context)
-            } else if ((cantMoveToRight) && isLastRow_OR_botSquareInWArrayIsUnset) {
-                when (rnd(2)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> m1090AndStart(context)
-                    else -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                }
-            } else if (isNotLastRow_AND_botSquareInWArrayIsSet) {
-                when (rnd(2)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    else -> m530(context)
-                }
-            } else {
-                when (rnd(3)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    3 -> m1090AndStart(context)
-                    else -> {
-                        when (rnd(2)) {
-                            1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                            2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                            else -> m530(context)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun m530(context: MazeBuildContext) {
-        context.doThis {
-            if (isNotLastRow_AND_botSquareInWArrayIsSet || (!(isNotLastRow && botSquareInWArrayIsUnset) && mazeHasAnEnd)) {
-                moveToTheLeftSquareByOpeningTheWallAndStart(context)
-            } else {
-                when (rnd(2)) {
-                    1 -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                    2 -> m1090AndStart(context)
-                    else -> moveToTheLeftSquareByOpeningTheWallAndStart(context)
-                }
-            }
-        }
-    }
-
-    fun cantGoLeft(context: MazeBuildContext) {
-        context.doThis {
-            if (mazeHasAnEnd && isLastRow && isNotLastCol && rightSquareInWArrayIsUnset && topSquareInWArrayIsUnset) {
-                when (rnd(2)) {
-                    1 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    else -> m720(context)
-                }
-            } else if (mazeHasAnEnd && isLastRow && isNotLastCol && rightSquareInWArrayIsUnset && topSquareInWArrayIsSet) {
-                moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-            } else if ((mazeHasAnEnd && isLastRow && cantMoveToRight && topSquareInWArrayIsSet)) {
-                do {
-                    moveToNextSquareOrRestart()
-                } while (currentSquareInWArrayIsUnset)
-                start(context)
-            } else if (cantMoveToTop && cantMoveToRight && isNotLastRow_AND_botSquareInWArrayIsSet) {
-                do {
-                    moveToNextSquareOrRestart()
-                } while (currentSquareInWArrayIsUnset)
-                start(context)
-            } else if (cantMoveToTop && cantMoveToRight && isLastRow_OR_botSquareInWArrayIsUnset) {
-                m1090AndStart(context)
-            } else if (cantMoveToTop && isNotLastCol && rightSquareInWArrayIsUnset && isNotLastRow_AND_botSquareInWArrayIsSet) {
-                moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-            } else if (cantMoveToTop && isNotLastCol && rightSquareInWArrayIsUnset && isNotLastRow && botSquareInWArrayIsUnset) {
-                when (rnd(2)) {
-                    1 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    2 -> m1090AndStart(context)
-                    else -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                }
-            } else if (topSquareInWArrayIsSet && isNotLastCol && rightSquareInWArrayIsUnset && isLastRow) {
-                moveToTheTopSquareByOpeningTheWall()
-                start(context)
-            } else if (cantMoveToRight) {
-                m720(context)
-            } else if (isNotLastRow_AND_botSquareInWArrayIsSet) {
-                when (rnd(2)) {
-                    1 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    else -> m720(context)
-                }
-            } else {
-                when (rnd(3)) {
-                    1 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                    3 -> m1090AndStart(context)
-                    else -> {
-                        when (rnd(2)) {
-                            1 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                            2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context)
-                            else -> m720(context)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun m720(context: MazeBuildContext) {
-        context.doThis {
-            if (isLastRow_AND_mazeHasAnEnd || isNotLastRow_AND_botSquareInWArrayIsSet) {
-                moveToTheTopSquareByOpeningTheWallAndStart(context)
-            } else {
-                when (rnd(2)) {
-                    1 -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                    2 -> m1090AndStart(context)
-                    else -> moveToTheTopSquareByOpeningTheWallAndStart(context)
-                }
-            }
-        }
-    }
-
-    fun moveToTheLeftSquareByOpeningTheWallAndStart(context: MazeBuildContext) {
-        context.doThis {
-            moveToTheLeftSquareByOpeningTheWall()
-            start(context)
-        }
-    }
-
-    fun moveToTheTopSquareByOpeningTheWallAndStart(context: MazeBuildContext) {
-        context.doThis {
-            moveToTheTopSquareByOpeningTheWall()
-            start(context)
-        }
-    }
-
-    fun moveToTheRightSquareByOpeningTheRightWallOrTheBotAndStart(context: MazeBuildContext) {
-        context.doThis {
-            moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
-            cantGoLeft(context)
-        }
-    }
-
-    fun m1090AndStart(context: MazeBuildContext) {
-        context.doThis {
-            if (isLastRow_AND_mazeHasNoEnd) {
-                mazeHasAnEnd = true
-
-                if (currentMazeSquareIsBlocked) {
-                    openBot()
-                    moveToTheFirstSquareOfTheMaze()
-                    while (currentSquareInWArrayIsUnset) {
-                        moveToNextSquareOrRestart()
-                    }
-                } else {
-                    openRightAndBot()
-                    do {
-                        moveToNextSquareOrRestart()
-                    } while (currentSquareInWArrayIsUnset)
-                }
-            } else {
-                moveToTheBotSquareByOpeningTheBotWallOrTheRightWall()
-            }
-            start(context)
-        }
     }
 
     class Maze(
@@ -255,11 +41,11 @@ class Amazing(randomSeed: Long? = null) {
         private val startingPosition: Int
         private val wArray: Array<IntArray> = Array(width + 1) { IntArray(height + 1) }
         private var maze: Maze = Maze(width + 1, height + 1)
-        var mazeHasAnEnd: Boolean = false
+        private var mazeHasAnEnd: Boolean = false
         private var col: Int = 0
         private var row: Int = 1
         private var numberOfOpenedPaths: Int = 2
-        var finished: Boolean = false
+        private var finished: Boolean = false
 
         private fun rnd(count: Int): Int {
             return (count * random.nextFloat()).toInt() + 1
@@ -271,9 +57,164 @@ class Amazing(randomSeed: Long? = null) {
             wArray[startingPosition][1] = 1
         }
 
-        fun doThis(block: MazeBuildContext.() -> Unit) {
+        private fun doNothing() {}
+
+        fun start() {
             if (!finished) {
-                apply { block(this) }
+                if (cantMoveToLeft) cantGoLeft()
+                else if (cantMoveToTop) m430()
+                else if (cantMoveToRight) m350()
+                else {
+                    when (rnd(3)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> moveToTheTopSquareByOpeningTheWall()
+                        3 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        else -> doNothing()
+                    }
+                }
+            }
+        }
+
+        private fun m350() {
+            if (!finished) {
+                if (cantOpenBot) {
+                    when (rnd(2)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> moveToTheTopSquareByOpeningTheWall()
+                        else -> doNothing()
+                    }
+                } else {
+                    when (rnd(3)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> moveToTheTopSquareByOpeningTheWall()
+                        3 -> endMazeIfPossibleAndStart()
+                        else -> doNothing()
+                    }
+                }
+            }
+        }
+
+        private fun m430() {
+            if (!finished) {
+                if (mazeHasAnEnd && isLastRow && cantMoveToRight) {
+                    moveToTheLeftSquareByOpeningTheWall()
+                } else if (mazeHasAnEnd && isLastRow && isNotLastCol && rightSquareInWArrayIsUnset) {
+                    when (rnd(2)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        else -> doNothing()
+                    }
+                } else if (cantMoveToRight && isNotLastRow_AND_botSquareInWArrayIsSet) {
+                    moveToTheLeftSquareByOpeningTheWall()
+                } else if ((cantMoveToRight) && isLastRow_OR_botSquareInWArrayIsUnset) {
+                    when (rnd(2)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> endMazeIfPossibleAndStart()
+                        else -> doNothing()
+                    }
+                } else if (isNotLastRow_AND_botSquareInWArrayIsSet) {
+                    when (rnd(2)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        else -> doNothing()
+                    }
+                } else {
+                    when (rnd(3)) {
+                        1 -> moveToTheLeftSquareByOpeningTheWall()
+                        2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        3 -> endMazeIfPossibleAndStart()
+                        else -> doNothing()
+                    }
+                }
+            }
+        }
+
+        private fun cantGoLeft() {
+            if (!finished) {
+                if (mazeHasAnEnd && isLastRow && isNotLastCol && rightSquareInWArrayIsUnset && topSquareInWArrayIsUnset) {
+                    when (rnd(2)) {
+                        1 -> moveToTheTopSquareByOpeningTheWall()
+                        2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        else -> doNothing()
+                    }
+                } else if (mazeHasAnEnd && isLastRow && isNotLastCol && rightSquareInWArrayIsUnset && topSquareInWArrayIsSet) {
+                    moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                } else if (mazeHasAnEnd && isLastRow && cantMoveToRight && topSquareInWArrayIsSet) {
+                    do {
+                        moveToNextSquareOrRestart()
+                    } while (currentSquareInWArrayIsUnset)
+                    start()
+                } else if (cantMoveToTop && cantMoveToRight && isNotLastRow_AND_botSquareInWArrayIsSet) {
+                    do {
+                        moveToNextSquareOrRestart()
+                    } while (currentSquareInWArrayIsUnset)
+                    start()
+                } else if (cantMoveToTop && cantMoveToRight && isLastRow_OR_botSquareInWArrayIsUnset) {
+                    endMazeIfPossibleAndStart()
+                } else if (cantMoveToTop && isNotLastCol && rightSquareInWArrayIsUnset && isNotLastRow_AND_botSquareInWArrayIsSet) {
+                    moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                } else if (cantMoveToTop && isNotLastCol && rightSquareInWArrayIsUnset && isNotLastRow && botSquareInWArrayIsUnset) {
+                    when (rnd(2)) {
+                        1 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        2 -> endMazeIfPossibleAndStart()
+                        else -> doNothing()
+                    }
+                } else if (topSquareInWArrayIsSet && isNotLastCol && rightSquareInWArrayIsUnset && isLastRow) {
+                    moveToTheTopSquareByOpeningTheWall()
+                } else if (cantMoveToRight) {
+                    m720()
+                } else if (isNotLastRow_AND_botSquareInWArrayIsSet) {
+                    when (rnd(2)) {
+                        1 -> moveToTheTopSquareByOpeningTheWall()
+                        2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        else -> doNothing()
+                    }
+                } else {
+                    when (rnd(3)) {
+                        1 -> moveToTheTopSquareByOpeningTheWall()
+                        2 -> moveToTheRightSquareByOpeningTheRightWallOrTheBotWall()
+                        3 -> endMazeIfPossibleAndStart()
+                        else -> doNothing()
+                    }
+                }
+            }
+        }
+
+        private fun m720() {
+            if (!finished) {
+                if (cantOpenBot) {
+                    moveToTheTopSquareByOpeningTheWall()
+                } else {
+                    when (rnd(2)) {
+                        1 -> moveToTheTopSquareByOpeningTheWall()
+                        2 -> endMazeIfPossibleAndStart()
+                        else -> doNothing()
+                    }
+                }
+            }
+        }
+
+        private fun endMazeIfPossibleAndStart() {
+            if (!finished) {
+                if (isLastRow_AND_mazeHasNoEnd) {
+                    mazeHasAnEnd = true
+
+                    if (currentMazeSquareIsBlocked) {
+                        openBot()
+                        moveToTheFirstSquareOfTheMaze()
+                        while (currentSquareInWArrayIsUnset) {
+                            moveToNextSquareOrRestart()
+                        }
+                    } else {
+                        openRightAndBot()
+                        do {
+                            moveToNextSquareOrRestart()
+                        } while (currentSquareInWArrayIsUnset)
+                    }
+                } else {
+                    moveToTheBotSquareByOpeningTheBotWallOrTheRightWall()
+                }
+                start()
             }
         }
 
@@ -282,34 +223,36 @@ class Amazing(randomSeed: Long? = null) {
         private val botSquare get() = row + 1
         private val topSquare get() = row - 1
 
-        val isFirstCol get() = col == 1
-        val isFirstRow get() = row == 1
-        val isLastCol get() = col == width
-        val isNotLastCol get() = !isLastCol
-        val isLastRow get() = row == height
-        val isNotLastRow get() = !isLastRow
+        private val isFirstCol get() = col == 1
+        private val isFirstRow get() = row == 1
+        private val isLastCol get() = col == width
+        private val isNotLastCol get() = !isLastCol
+        private val isLastRow get() = row == height
+        private val isNotLastRow get() = !isLastRow
 
-        val currentSquareInWArrayIsUnset get() = wArray[col][row] == 0
-        val rightSquareInWArrayIsUnset get() = wArray[rightSquare][row] == 0
-        val leftSquareInWArrayIsUnset get() = wArray[leftSquare][row] == 0
-        val botSquareInWArrayIsUnset get() = wArray[col][botSquare] == 0
-        val topSquareInWArrayIsUnset get() = wArray[col][topSquare] == 0
+        private val currentSquareInWArrayIsUnset get() = wArray[col][row] == 0
+        private val rightSquareInWArrayIsUnset get() = wArray[rightSquare][row] == 0
+        private val leftSquareInWArrayIsUnset get() = wArray[leftSquare][row] == 0
+        private val botSquareInWArrayIsUnset get() = wArray[col][botSquare] == 0
+        private val topSquareInWArrayIsUnset get() = wArray[col][topSquare] == 0
 
-        val rightSquareInWArrayIsSet get() = !rightSquareInWArrayIsUnset
-        val leftSquareInWArrayIsSet get() = !leftSquareInWArrayIsUnset
-        val botSquareInWArrayIsSet get() = !botSquareInWArrayIsUnset
-        val topSquareInWArrayIsSet get() = !topSquareInWArrayIsUnset
+        private val rightSquareInWArrayIsSet get() = !rightSquareInWArrayIsUnset
+        private val leftSquareInWArrayIsSet get() = !leftSquareInWArrayIsUnset
+        private val botSquareInWArrayIsSet get() = !botSquareInWArrayIsUnset
+        private val topSquareInWArrayIsSet get() = !topSquareInWArrayIsUnset
 
-        val cantMoveToLeft get() = isFirstCol || leftSquareInWArrayIsSet
-        val cantMoveToTop get() = isFirstRow || topSquareInWArrayIsSet
-        val cantMoveToRight get() = isLastCol || rightSquareInWArrayIsSet
-        val isNotLastRow_AND_botSquareInWArrayIsSet get() = isNotLastRow && botSquareInWArrayIsSet
-        val isLastRow_OR_botSquareInWArrayIsUnset get() = isLastRow || botSquareInWArrayIsUnset
+        private val cantMoveToLeft get() = isFirstCol || leftSquareInWArrayIsSet
+        private val cantMoveToTop get() = isFirstRow || topSquareInWArrayIsSet
+        private val cantMoveToRight get() = isLastCol || rightSquareInWArrayIsSet
+        private val isNotLastRow_AND_botSquareInWArrayIsSet get() = isNotLastRow && botSquareInWArrayIsSet
+        private val isLastRow_OR_botSquareInWArrayIsUnset get() = isLastRow || botSquareInWArrayIsUnset
 
-        val currentMazeSquareIsBlocked get() = maze.array[col][row] == Maze.SquareType.BLOCKED
+        private val currentMazeSquareIsBlocked get() = maze.array[col][row] == Maze.SquareType.BLOCKED
 
-        val isLastRow_AND_mazeHasAnEnd get() = isLastRow && mazeHasAnEnd
-        val isLastRow_AND_mazeHasNoEnd get() = isLastRow && !mazeHasAnEnd
+        private val isLastRow_AND_mazeHasAnEnd get() = isLastRow && mazeHasAnEnd
+        private val isLastRow_AND_mazeHasNoEnd get() = isLastRow && !mazeHasAnEnd
+
+        private val cantOpenBot get() = isLastRow_AND_mazeHasAnEnd || isNotLastRow_AND_botSquareInWArrayIsSet
 
         private fun moveToFirstCol() {
             col = 1
@@ -327,7 +270,7 @@ class Amazing(randomSeed: Long? = null) {
             row++
         }
 
-        fun moveToNextSquareOrRestart() {
+        private fun moveToNextSquareOrRestart() {
             if (isNotLastCol) moveToTheRightSquare()
             else if (isNotLastRow) moveToTheStartOfTheNextLineBotSquare()
             else moveToTheFirstSquareOfTheMaze()
@@ -338,35 +281,38 @@ class Amazing(randomSeed: Long? = null) {
             moveToTheBotSquare()
         }
 
-        fun moveToTheFirstSquareOfTheMaze() {
+        private fun moveToTheFirstSquareOfTheMaze() {
             moveToFirstCol()
             moveToFirstRow()
         }
 
-        fun moveToTheRightSquareByOpeningTheRightWallOrTheBotWall() {
+        private fun moveToTheRightSquareByOpeningTheRightWallOrTheBotWall() {
             if (currentMazeSquareIsBlocked) openRight()
             else openRightAndBot()
             moveToTheRightSquare()
             setNumberOfOpenedPathsToCurrentSquareInWArray()
+            cantGoLeft()
         }
 
-        fun moveToTheLeftSquareByOpeningTheWall() {
+        private fun moveToTheLeftSquareByOpeningTheWall() {
             col--
             openRight()
             setNumberOfOpenedPathsToCurrentSquareInWArray()
+            start()
         }
 
-        fun moveToTheBotSquareByOpeningTheBotWallOrTheRightWall() {
+        private fun moveToTheBotSquareByOpeningTheBotWallOrTheRightWall() {
             if (currentMazeSquareIsBlocked) openBot()
             else openRightAndBot()
             moveToTheBotSquare()
             setNumberOfOpenedPathsToCurrentSquareInWArray()
         }
 
-        fun moveToTheTopSquareByOpeningTheWall() {
+        private fun moveToTheTopSquareByOpeningTheWall() {
             row--
             openBot()
             setNumberOfOpenedPathsToCurrentSquareInWArray()
+            start()
         }
 
         private fun setNumberOfOpenedPathsToCurrentSquareInWArray() {
@@ -381,11 +327,11 @@ class Amazing(randomSeed: Long? = null) {
             maze.array[col][row] = Maze.SquareType.OPEN_RIGHT
         }
 
-        fun openBot() {
+        private fun openBot() {
             maze.array[col][row] = Maze.SquareType.OPEN_BOT
         }
 
-        fun openRightAndBot() {
+        private fun openRightAndBot() {
             maze.array[col][row] = Maze.SquareType.FULLY_OPEN
         }
 
